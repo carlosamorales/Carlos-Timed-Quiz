@@ -1,0 +1,63 @@
+/* styles.css */
+
+body {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center;
+    justify-content: center; /* Center both vertically and horizontally */
+    height: 100vh;
+    margin: 0;
+    padding: 20px;
+    background-color: white; /* Set the background color of the page to white */
+    font-family: 'Arial', sans-serif; /* Use a preferred font family */
+}
+
+#high-scores {
+    align-self: flex-start; /* Align to the top left */
+    cursor: pointer; /* Add a pointer cursor for better user interaction */
+    color: darkslateblue; /* Set the text color */
+}
+
+#quiz-container {
+    text-align: center;
+    max-width: 600px; /* Set a maximum width for the quiz container */
+    margin: auto; /* Center the quiz container on the page */
+    display: none; /* Initially hide the quiz container */
+}
+
+#timer {
+    align-self: flex-start; /* Align to the top left */
+    margin-top: 10px; /* Add spacing from the top */
+    font-weight: bold; /* Make the timer text bold */
+}
+
+#start-button {
+    background-color: darkslateblue; /* Set the background color of the start button */
+    color: white; /* Set the text color of the start button */
+    padding: 10px 20px; /* Add padding for better visual appearance */
+    font-size: 16px; /* Set the font size */
+    border: none; /* Remove border */
+    cursor: pointer; /* Add a pointer cursor for better user interaction */
+    margin-top: 20px; /* Add spacing from the top */
+}
+
+#start-button:hover {
+    background-color: darkslategray; /* Change the background color on hover */
+}
+
+#answers {
+    list-style: none; /* Remove default list styling */
+    padding: 0;
+}
+
+.answer {
+    background-color: purple; /* Set the background color of the selected answer to purple */
+    color: white; /* Set the text color of the selected answer to white */
+    padding: 8px; /* Add padding for better visual appearance */
+    margin-bottom: 5px; /* Add spacing between answers */
+    cursor: pointer; /* Add a pointer cursor for better user interaction */
+}
+
+.answer:hover {
+    background-color: darkslateblue; /* Change the background color on hover */
+}
