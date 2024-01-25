@@ -8,6 +8,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const saveButton = document.getElementById("save-button");
     const scoreMessage = document.getElementById("score-message");
     const scoreContainer = document.getElementById("score-container");
+    const resultMessageElement = document.getElementById("result-message");
+    const scoresList = document.getElementById("scores-list");
+
+    document.getElementById("Go-Back").addEventListener("click", function () {
+        resetQuiz();
+    });
+
+    document.getElementById("Clear-HighScores").addEventListener("click", function () {
+        clearHighScores();
+    });
 
     let timer;
     let selectedAnswers = [];
@@ -156,8 +166,12 @@ document.addEventListener("DOMContentLoaded", function () {
         scoreContainer.style.display = "block"; // Show score container
         console.log(endQuiz);
         // Show the form to save initials and score
+        const scoreResult = calculateScore();
         document.getElementById("score-container").style.display = "block";
-        document.getElementById("final-score").textContent = `Your Final Score: ${calculateScore().totalScore}`;
+        document.getElementById("final-score").textContent = `Your Final Score: ${scoreResult.totalScore}`;
+        // Display the result message
+        const resultMessageElement = document.getElementById("result-message");
+        resultMessageElement.textContent = `Result: ${scoreResult.message}`;
     }
 
     saveButton.addEventListener("click", function () {
@@ -166,7 +180,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Save initials and score logic
             const score = calculateScore().totalScore;
             // Perform the necessary actions to save initials and score
-            localStorage.setItem(initials,score);
+            localStorage.setItem(initials, score);
             console.log(`Initials: ${initials}, Score: ${score}`);
         }
     });
@@ -188,16 +202,77 @@ document.addEventListener("DOMContentLoaded", function () {
         const totalScore = userScore + remainingTimeScore;
 
         let message;
-        if (totalScore >= 80 && totalScore <= maxPossibleScore) {
+        if (totalScore >= 80 && totalScore <= 100 && totalScore <= maxPossibleScore) {
             message = "Passed!";
-        } else if (totalScore === 100) {
+            console.log(message);
+        } else if (totalScore >= 100) {
             message = "Perfect Score!";
+            console.log(message);
         } else {
             message = "Failed";
+            console.log(message);
         }
 
         return { totalScore, message };
     }
+
+    function resetQuiz() {
+        clearInterval(timer);
+        timerElement.textContent = "";
+        quizContainer.style.display = "none";
+        highScoresContainer.style.display = "none";
+        scoreContainer.style.display = "none";
+        startButton.style.display = "block";  // Show the start button again
+        questionIndex = 0;  // Reset the question index
+        selectedAnswers = [];  // Reset selected answers
+        // Optionally, reset the timeLeft if you want to start the timer again
+        // timeLeft = 60;
+    }
+
+    function clearHighScores() {
+        // Logic to clear high scores on the screen
+        scoresList.innerHTML = "";
+        // Optionally, clear high scores from localStorage if you want to reset saved scores
+        localStorage.clear();
+    }
+
+    function displayHighScores() {
+        scoresList.innerHTML = ""; // Clear previous high scores
+
+        // Get all entries from localStorage
+        for (let i = 0; i < localStorage.length; i++) {
+            const initials = localStorage.key(i);
+            const score = localStorage.getItem(initials);
+
+            // Create a list item to display each high score entry
+            const scoreItem = document.createElement("li");
+            scoreItem.textContent = `${initials}: ${score}`;
+            scoresList.appendChild(scoreItem);
+        }
+    }
+
+    saveButton.addEventListener("click", function () {
+        const initials = initialsInput.value.trim();
+        if (initials !== "") {
+            // Save initials and score logic
+            const score = calculateScore().totalScore;
+            // Perform the necessary actions to save initials and score
+            localStorage.setItem(initials, score);
+            console.log(`Initials: ${initials}, Score: ${score}`);
+
+            // Display high scores after saving
+            displayHighScores();
+        }
+    });
+
+    // Add an event listener to the "View High Scores" button to display high scores
+    highScoresContainer.addEventListener("click", function () {
+        highScoresContainer.style.display = "block";
+        startButton.style.display = "none";
+        quizContainer.style.display = "none";
+        scoreContainer.style.display = "none";
+        displayHighScores();
+    });
 
     startButton.addEventListener("click", startQuiz);
 });
